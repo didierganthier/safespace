@@ -1,10 +1,7 @@
-import { AppReportsPage } from "./components/dashboard/ReportList";
-
+import HomePage from "../components/main/Home";
 
 export default function Home() {
   return (
-    <div className="h-screen bg-white">
-      <AppReportsPage />
-    </div>
+      <HomePage />
   );
 }
