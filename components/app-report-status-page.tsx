@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Shield, Search, AlertCircle, CheckCircle2, Clock, HelpCircle } from "lucide-react"
+import { Search, AlertCircle, CheckCircle2, Clock, HelpCircle } from "lucide-react"
+import Navbar from './shared/Navbar'
 
 type ReportStatus = 'submitted' | 'under_review' | 'in_progress' | 'resolved' | 'closed'
 
@@ -104,21 +105,7 @@ export function AppReportStatusPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <Shield className="h-8 w-8 text-blue-600 mr-2" />
-            <span className="text-2xl font-bold text-gray-900">SafeSpace</span>
-          </Link>
-          <nav>
-            <ul className="flex space-x-4">
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Home</Link></li>
-              <li><Link href="/report" className="text-gray-600 hover:text-gray-900">Report</Link></li>
-              <li><Link href="/resources" className="text-gray-600 hover:text-gray-900">Resources</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Check Report Status</h1>

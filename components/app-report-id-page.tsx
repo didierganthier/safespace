@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
-import { Shield, Clock, CheckCircle2, MessageCircle, Paperclip, AlertTriangle } from "lucide-react"
+import { Clock, CheckCircle2, MessageCircle, Paperclip, AlertTriangle } from "lucide-react"
+import Navbar from './shared/Navbar'
 
 interface ReportUpdate {
   id: string
@@ -91,11 +92,11 @@ export function AppReportIdPage() {
       case 'submitted':
         return <Badge variant="secondary">Submitted</Badge>
       case 'under_review':
-        return <Badge variant="warning">Under Review</Badge>
+        return <Badge variant="outline">Under Review</Badge>
       case 'in_progress':
         return <Badge variant="default">In Progress</Badge>
       case 'resolved':
-        return <Badge variant="success">Resolved</Badge>
+        return <Badge variant="default">Resolved</Badge>
       case 'closed':
         return <Badge variant="destructive">Closed</Badge>
       default:
@@ -117,21 +118,7 @@ export function AppReportIdPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <Shield className="h-8 w-8 text-blue-600 mr-2" />
-            <span className="text-2xl font-bold text-gray-900">SafeSpace</span>
-          </Link>
-          <nav>
-            <ul className="flex space-x-4">
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Home</Link></li>
-              <li><Link href="/report" className="text-gray-600 hover:text-gray-900">Report</Link></li>
-              <li><Link href="/resources" className="text-gray-600 hover:text-gray-900">Resources</Link></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Report Details</h1>
