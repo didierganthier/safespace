@@ -5,7 +5,7 @@ import Navbar from '@/components/shared/Navbar'
 const Report = () => {
     return (
         <>
-              <Navbar />
+            <Navbar />
             <ReportForm />
         </>
     )

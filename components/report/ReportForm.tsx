@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { AlertCircle, Upload } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useState } from "react";
 import { db, storage } from "@/lib/firebase";
@@ -86,9 +86,9 @@ export function ReportForm() {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="workplace">Workplace Discrimination</SelectItem>
-                    <SelectItem value="online">Online Abuse</SelectItem>
-                    <SelectItem value="public">Public Harassment</SelectItem>
+                    <SelectItem value="workplace-discrimination">Workplace Discrimination</SelectItem>
+                    <SelectItem value="online-abuse">Online Abuse</SelectItem>
+                    <SelectItem value="public-harassment">Public Harassment</SelectItem>
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>

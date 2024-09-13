@@ -4,7 +4,7 @@ import React from 'react'
 
 const ReportsPage = () => {
     return (
-        <div className='bg-white'>
+        <div className='bg-white h-screen'>
             <Navbar />
             <AppReportsPage />
         </div>
