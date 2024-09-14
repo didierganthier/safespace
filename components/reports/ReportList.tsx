@@ -8,11 +8,23 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { db } from "@/lib/firebase"; // Adjust the import based on your file structure
 import { arrayUnion, collection, doc, getDocs, Timestamp, updateDoc } from "firebase/firestore";
 import formatDate from '@/utils/formatDate';
 import { toast } from 'react-toastify';
+
+type Claim = {
+  description: string;
+  name?: string;
+  email?: string;
+};
+
+type Comment = {
+  text: string;
+  author: string;
+  timestamp: Timestamp;
+};
 
 type Report = {
   id: string;
@@ -20,20 +32,20 @@ type Report = {
   targetEntity: string;
   dateSubmitted: string;
   timestamp: Timestamp;
-  claims: Array<{ description: string; name?: string; email?: string }>; // Array of claim objects
+  claims: Claim[];
+  comments: Comment[];
   description: string;
-}
+};
 
 export function AppReportsPage() {
   const [reports, setReports] = useState<Report[]>([]);
   const [expandedReport, setExpandedReport] = useState<string | null>(null);
   const [claimDialogOpen, setClaimDialogOpen] = useState(false);
   const [currentReportId, setCurrentReportId] = useState<string | null>(null);
-
-  // Form state
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [commentText, setCommentText] = useState<string>('');
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -68,20 +80,42 @@ export function AppReportsPage() {
 
     if (currentReportId) {
       try {
-        // Add the claim to the current report's claims array in Firestore
         const reportRef = doc(db, "reports", currentReportId);
         await updateDoc(reportRef, {
-          claims: arrayUnion({ name, email, description }), // Add the new claim
+          claims: arrayUnion({ name, email, description }),
         });
         setClaimDialogOpen(false);
         toast.success('Claim submitted successfully!');
-        setName('');  // Reset the form fields
+        setName('');  
         setEmail('');
         setDescription('');
       } catch (error) {
         console.error('Error submitting claim:', error);
         toast.error('Failed to submit claim. Please try again.');
       }
+    }
+  };
+
+  const submitComment = async (reportId: string) => {
+    if (!commentText) {
+      toast.error('Comment cannot be empty.');
+      return;
+    }
+
+    try {
+      const reportRef = doc(db, "reports", reportId);
+      await updateDoc(reportRef, {
+        comments: arrayUnion({
+          text: commentText,
+          author: name || 'Anonymous',
+          timestamp: Timestamp.now(),
+        }),
+      });
+      toast.success('Comment added!');
+      setCommentText('');
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      toast.error('Failed to add comment. Please try again.');
     }
   };
 
@@ -99,7 +133,9 @@ export function AppReportsPage() {
                 <CardTitle className="text-sm font-medium">
                   {report.category.replace(/^\w/, (c) => c.toUpperCase()).replace('-', ' ')}
                 </CardTitle>
-                {report.claims && report.claims.length > 0 && (<Badge variant="secondary">{report.claims.length} similar claims</Badge>)}
+                {report.claims && report.claims.length > 0 && (
+                  <Badge variant="secondary">{report.claims.length} similar claims</Badge>
+                )}
               </CardHeader>
               <CardContent>
                 <div className="text-sm text-muted-foreground mb-2">
@@ -112,6 +148,42 @@ export function AppReportsPage() {
                 {expandedReport === report.id && (
                   <div className="mt-2 p-4 bg-muted rounded-md">
                     <p className="text-sm">{report.description}</p>
+
+                    {/* Display Claims */}
+                    <div className="mt-4">
+                      <h3 className="text-md font-semibold mb-2">Similar Claims</h3>
+                      {report.claims.map((claim, index) => (
+                        <div key={index} className="mb-2 p-2 bg-gray-100 rounded-md">
+                          <p className="text-sm">{claim.description}</p>
+                          <p className="text-xs text-muted-foreground">Submitted by: {claim.name || 'Anonymous'}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Display Comments */}
+                    <div className="mt-4">
+                      <h3 className="text-md font-semibold mb-2">Comments</h3>
+                      {report.comments && report.comments.length > 0 ? (
+                        report.comments.map((comment, index) => (
+                          <div key={index} className="mb-2 p-2 bg-gray-100 rounded-md">
+                            <p className="text-sm">{comment.text}</p>
+                            <p className="text-xs text-muted-foreground">- {comment.author}, {formatDate(comment.timestamp)}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-sm text-muted-foreground">No comments yet.</p>
+                      )}
+                    </div>
+
+                    {/* Add Comment */}
+                    <div className="mt-4">
+                      <Textarea
+                        placeholder="Add a comment..."
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                      />
+                      <Button onClick={() => submitComment(report.id)} className="mt-2">Submit Comment</Button>
+                    </div>
                   </div>
                 )}
                 <div className="mt-4">
@@ -172,16 +244,11 @@ export function AppReportsPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Submit Claim</Button>
+              <Button type="submit">Submit</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
-
-      <div className="mt-8 flex items-center justify-center text-sm text-muted-foreground">
-        <AlertCircle className="h-4 w-4 mr-2" />
-        If you&apos;re in immediate danger, please contact local authorities or a helpline.
-      </div>
     </div>
   );
 }
