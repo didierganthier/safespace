@@ -72,7 +72,6 @@ export default function HomePage() {
             <li>Submit an anonymous report about the harassment you&apos;ve experienced.</li>
             <li>Our team reviews the report and takes appropriate action.</li>
             <li>Access support resources and connect with others who&apos;ve had similar experiences.</li>
-            <li>Stay updated on the progress of your report through our secure platform.</li>
           </ol>
         </section>
 

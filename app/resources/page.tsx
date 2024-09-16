@@ -24,12 +24,12 @@ const ResourcesPage = () => {
               </CardDescription>
               <ul className="mt-4 space-y-2">
                 <li>
-                  <Link href="#" className="text-blue-600 hover:underline">
+                  <Link href="https://stopstreetharassment.org/our-work/nationalshhotline/" className="text-blue-600 hover:underline">
                     National Harassment Hotline
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-blue-600 hover:underline">
+                  <Link href="https://www.eeoc.gov/employees-job-applicants/filing-complaint" className="text-blue-600 hover:underline">
                     Workplace Discrimination Support
                   </Link>
                 </li>
@@ -50,12 +50,12 @@ const ResourcesPage = () => {
               </CardDescription>
               <ul className="mt-4 space-y-2">
                 <li>
-                  <Link href="#" className="text-blue-600 hover:underline">
+                  <Link href="https://www.eeoc.gov/harassment" className="text-blue-600 hover:underline">
                     Understanding Workplace Harassment
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-blue-600 hover:underline">
+                  <Link href="https://www.stopbullying.gov/cyberbullying/what-is-it" className="text-blue-600 hover:underline">
                     Cyberbullying: A Comprehensive Guide
                   </Link>
                 </li>
@@ -76,12 +76,12 @@ const ResourcesPage = () => {
               </CardDescription>
               <ul className="mt-4 space-y-2">
                 <li>
-                  <Link href="#" className="text-blue-600 hover:underline">
+                  <Link href="https://www.eeoc.gov/laws-guidance" className="text-blue-600 hover:underline">
                     Anti-Harassment Laws
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-blue-600 hover:underline">
+                  <Link href="https://www.aclu.org/know-your-rights/what-do-if-youre-stopped-police-immigration-agents-or-fbi" className="text-blue-600 hover:underline">
                     Legal Steps to Address Harassment
                   </Link>
                 </li>
