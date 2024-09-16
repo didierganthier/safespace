@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Shield, Eye, EyeOff, AlertCircle, Info } from "lucide-react"
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from '@/lib/firebase'
+import { toast } from 'react-toastify'
 
 export function AppSignupPage() {
   const [formData, setFormData] = useState({
@@ -43,18 +46,15 @@ export function AppSignupPage() {
       return
     }
 
-    // Here you would typically make an API call to create the user account
-    // For this example, we'll just simulate the account creation process
     try {
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Simulated successful account creation
-      console.log('Account created:', { email: formData.email })
+      // Create user with Firebase Auth
+      await createUserWithEmailAndPassword(auth, formData.email, formData.password)
       
-      // Redirect to dashboard or home page after successful signup
-      router.push('/dashboard')
+      toast.success('Account created successfully! You are now logged in.')
+      
+      router.push('/')
     } catch (err) {
+      console.error(err)
       setError('An error occurred. Please try again.')
     }
   }
